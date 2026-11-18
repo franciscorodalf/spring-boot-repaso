@@ -1,0 +1,7 @@
+/home/joperexp/Descargas/api-tareas/src/main/java/aula/tareas/TareasApplication.java
+/home/joperexp/Descargas/api-tareas/src/main/java/aula/tareas/controller/TareaController.java
+/home/joperexp/Descargas/api-tareas/src/main/java/aula/tareas/modelo/Tarea.java
+/home/joperexp/Descargas/api-tareas/src/main/java/aula/tareas/repository/ITareaRepository.java
+/home/joperexp/Descargas/api-tareas/src/main/java/aula/tareas/repository/TareaRepository.java
+/home/joperexp/Descargas/api-tareas/src/main/java/aula/tareas/repository/TareaRepositoryCsv.java
+/home/joperexp/Descargas/api-tareas/src/main/java/aula/tareas/service/TareaService.java
