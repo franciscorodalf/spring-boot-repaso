@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository("repositoryCsv")
-public class TareaRepositoryCsv implements ITareaRepository{
-    private  Path path;
+public class TareaRepositoryCsv implements ITareaRepository {
+    private Path path;
     private final CSVFormat inputFormat = CSVFormat.DEFAULT.builder()
             .setHeader()
             .setSkipHeaderRecord(true).build();
@@ -45,7 +45,7 @@ public class TareaRepositoryCsv implements ITareaRepository{
         try {
             List<Tarea> result = new ArrayList<>();
             try (Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
-                 CSVParser parser = inputFormat.parse(reader)) {
+                    CSVParser parser = inputFormat.parse(reader)) {
                 for (CSVRecord row : parser) {
                     result.add(new Tarea(
                             Long.parseLong(row.get("id")),
@@ -53,7 +53,7 @@ public class TareaRepositoryCsv implements ITareaRepository{
                 }
             }
             return result;
-        }catch (Exception e) {
+        } catch (Exception e) {
             return List.of();
         }
 
@@ -61,7 +61,18 @@ public class TareaRepositoryCsv implements ITareaRepository{
 
     @Override
     public Tarea findById(long identificador) {
-        return null;
+
+        try (Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
+                CSVParser parser = inputFormat.parse(reader)) {
+            for (CSVRecord row : parser) {
+                if (Long.parseLong(row.get("id")) == identificador) {
+                    return new Tarea(identificador, row.get("titulo"));
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

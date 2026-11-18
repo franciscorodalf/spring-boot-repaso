@@ -10,6 +10,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/tareas")
@@ -35,6 +38,12 @@ class TareaController {
         Tarea tarea = servicio.crear(peticion.titulo());
         return ResponseEntity.created(URI.create("/api/tareas/" + tarea.id())).body(tarea);
     }
+
+    @GetMapping
+    public String actualizar(@RequestParam @Valid @NotBlank  String titulo) {
+        return new String();
+    }
+    
 
     public record NuevaTarea(@NotBlank String titulo) {}
 }
