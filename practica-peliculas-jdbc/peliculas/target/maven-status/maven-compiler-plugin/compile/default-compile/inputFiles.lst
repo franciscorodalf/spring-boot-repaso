@@ -1,0 +1,16 @@
+/Users/fran/Documents/GitHub/spring-boot-repaso/practica-peliculas-jdbc/peliculas/src/main/java/ies/puesto/peliculas/PeliculasApplication.java
+/Users/fran/Documents/GitHub/spring-boot-repaso/practica-peliculas-jdbc/peliculas/src/main/java/ies/puesto/peliculas/controller/PeliculaJdbcController.java
+/Users/fran/Documents/GitHub/spring-boot-repaso/practica-peliculas-jdbc/peliculas/src/main/java/ies/puesto/peliculas/controller/api/PeliculaEdicionRequest.java
+/Users/fran/Documents/GitHub/spring-boot-repaso/practica-peliculas-jdbc/peliculas/src/main/java/ies/puesto/peliculas/controller/api/PeliculaRequest.java
+/Users/fran/Documents/GitHub/spring-boot-repaso/practica-peliculas-jdbc/peliculas/src/main/java/ies/puesto/peliculas/controller/api/PeliculaResponse.java
+/Users/fran/Documents/GitHub/spring-boot-repaso/practica-peliculas-jdbc/peliculas/src/main/java/ies/puesto/peliculas/controller/mapper/PeliculaApiMapper.java
+/Users/fran/Documents/GitHub/spring-boot-repaso/practica-peliculas-jdbc/peliculas/src/main/java/ies/puesto/peliculas/model/Pelicula.java
+/Users/fran/Documents/GitHub/spring-boot-repaso/practica-peliculas-jdbc/peliculas/src/main/java/ies/puesto/peliculas/repository/PeliculaRepository.java
+/Users/fran/Documents/GitHub/spring-boot-repaso/practica-peliculas-jdbc/peliculas/src/main/java/ies/puesto/peliculas/repository/jdbc/PeliculaEntity.java
+/Users/fran/Documents/GitHub/spring-boot-repaso/practica-peliculas-jdbc/peliculas/src/main/java/ies/puesto/peliculas/repository/jdbc/PeliculaEntityMapper.java
+/Users/fran/Documents/GitHub/spring-boot-repaso/practica-peliculas-jdbc/peliculas/src/main/java/ies/puesto/peliculas/repository/jdbc/PeliculaJdbcRepository.java
+/Users/fran/Documents/GitHub/spring-boot-repaso/practica-peliculas-jdbc/peliculas/src/main/java/ies/puesto/peliculas/repository/jdbc/PeliculaRowMapper.java
+/Users/fran/Documents/GitHub/spring-boot-repaso/practica-peliculas-jdbc/peliculas/src/main/java/ies/puesto/peliculas/service/PeliculaService.java
+/Users/fran/Documents/GitHub/spring-boot-repaso/practica-peliculas-jdbc/peliculas/src/main/java/ies/puesto/peliculas/service/mapper/PeliculaDominioMapper.java
+/Users/fran/Documents/GitHub/spring-boot-repaso/practica-peliculas-jdbc/peliculas/src/main/java/ies/puesto/peliculas/service/modelo/DatosCreacionPelicula.java
+/Users/fran/Documents/GitHub/spring-boot-repaso/practica-peliculas-jdbc/peliculas/src/main/java/ies/puesto/peliculas/service/modelo/DatosEdicionPelicula.java

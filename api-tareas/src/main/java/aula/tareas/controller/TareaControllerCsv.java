@@ -5,21 +5,19 @@ import java.util.List;
 
 
 import aula.tareas.modelo.Tarea;
-import aula.tareas.service.TareaService;
+import aula.tareas.service.TareaServiceCsv;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
-@RequestMapping("/api/tareas")
-class TareaController {
-    private final TareaService servicio;
+@RequestMapping("/api/csv/tareas")
+class TareaControllerCsv {
+    private final TareaServiceCsv servicio;
 
-    TareaController(TareaService servicio) {
+    TareaControllerCsv(@Qualifier("tareaServiceCsv") TareaServiceCsv servicio) {
         this.servicio = servicio;
     }
 
@@ -39,11 +37,7 @@ class TareaController {
         return ResponseEntity.created(URI.create("/api/tareas/" + tarea.id())).body(tarea);
     }
 
-    @GetMapping
-    public String actualizar(@RequestParam @Valid @NotBlank  String titulo) {
-        return new String();
-    }
-    
 
+    
     public record NuevaTarea(@NotBlank String titulo) {}
 }
