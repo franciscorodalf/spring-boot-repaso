@@ -1,5 +1,20 @@
 package ies.puesto.peliculas.repository.jdbc;
 
-public class PeliculaRowMapper {
-    
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
+
+@Component
+class PeliculaRowMapper implements RowMapper<PeliculaEntity> {
+
+    @Override
+    public PeliculaEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new PeliculaEntity(
+                rs.getString("pelicula_codigo"),
+                rs.getString("titulo_texto"),
+                rs.getInt("estreno_anio"),
+                rs.getInt("duracion_minutos"));
+    }
 }

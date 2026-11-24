@@ -1,5 +1,7 @@
 package ies.puesto.peliculas.service.modelo;
 
-public class DatosEdicionPelicula {
-    
+public record DatosEdicionPelicula(
+        String nombreSolicitado,
+        int anioSolicitado,
+        int minutosSolicitados) {
 }
