@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service("tareaServiceJson")
-public class TareaServiceJson implements ITareaService{
+public class TareaServiceJson implements ITareaService {
 
     private final ITareaRepository tareaRepositoryJson;
 
@@ -23,23 +24,44 @@ public class TareaServiceJson implements ITareaService{
 
     @Override
     public Tarea buscar(long id) {
-        return null;
+        if (id <= 0) {
+            return null;
+        }
+        return tareaRepositoryJson.findById(id);
+    }
+
+    @Override
+    public List<Tarea> buscarPorTitulo(String texto) {
+        if (texto == null || texto.isBlank()) {
+            return listar();
+        }
+        String buscado = texto.strip().toLowerCase(Locale.ROOT);
+        return tareaRepositoryJson.findAll().stream()
+                .filter(tarea -> tarea.titulo().toLowerCase(Locale.ROOT).contains(buscado))
+                .toList();
     }
 
     @Override
     public Tarea crear(String titulo) {
-        return tareaRepositoryJson.create(titulo);
+        if (titulo == null || titulo.isBlank()) {
+            return null;
+        }
+        return tareaRepositoryJson.create(titulo.strip());
     }
 
     @Override
     public boolean delete(long identificador) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        if (identificador <= 0) {
+            return false;
+        }
+        return tareaRepositoryJson.delete(identificador);
     }
 
     @Override
     public Tarea update(Tarea tarea) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        if (tarea == null || tarea.id() <= 0 || tarea.titulo() == null || tarea.titulo().isBlank()) {
+            return null;
+        }
+        return tareaRepositoryJson.update(new Tarea(tarea.id(), tarea.titulo().strip()));
     }
 }

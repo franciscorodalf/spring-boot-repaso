@@ -7,54 +7,76 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/json/tareas")
-@Tag(name="Tareas", description = "Operaciones crud de tareas en json")
+@RequestMapping(TareaControllerJson.RUTA)
+@Tag(name = "Tareas JSON", description = "Operaciones CRUD de tareas guardadas en data/tarea.json")
 public class TareaControllerJson {
+    static final String RUTA = "/api/json/tareas";
 
     private final ITareaService serviceJson;
 
-    public TareaControllerJson(@Qualifier("tareaServiceJson")  ITareaService serviceJson) {
+    public TareaControllerJson(@Qualifier("tareaServiceJson") ITareaService serviceJson) {
         this.serviceJson = serviceJson;
     }
 
     @GetMapping
-    @Operation(summary = "Obtener todos las tareas desde el fichero json")
-    @ApiResponses(@ApiResponse(responseCode = "200", description = "Se obtiene el listado de tareas"))
-    List<Tarea> listar() {
-        return serviceJson.listar();
+    @Operation(summary = "Listar las tareas; con ?titulo= filtra las que contienen ese texto")
+    @ApiResponse(responseCode = "200", description = "Listado de tareas")
+    List<Tarea> listar(@RequestParam(required = false) String titulo) {
+        return titulo == null ? serviceJson.listar() : serviceJson.buscarPorTitulo(titulo);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener la tarea a traves de su id")
+    @Operation(summary = "Obtener una tarea por su id")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Tarea encontrada"),
             @ApiResponse(responseCode = "404", description = "Tarea no encontrada")
     })
     ResponseEntity<Tarea> buscar(@PathVariable long id) {
-        //return ResponseEntity.ofNullable(servicio.buscar(id));
-        return null;
+        return ResponseEntity.ofNullable(serviceJson.buscar(id));
     }
 
     @PostMapping
+    @Operation(summary = "Crear una tarea")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Tarea creada"),
-            @ApiResponse(responseCode = "400", description = "Tarea existe")
+            @ApiResponse(responseCode = "400", description = "Título vacío o ausente")
     })
-    ResponseEntity<Tarea> crear(@Valid @RequestBody TareaControllerCsv.NuevaTarea peticion) {
+    ResponseEntity<Tarea> crear(@Valid @RequestBody PeticionTarea peticion) {
         Tarea tarea = serviceJson.crear(peticion.titulo());
-        return ResponseEntity.created(URI.create("/api/json/tareas/" + tarea.id())).body(tarea);
+        if (tarea == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.created(URI.create(RUTA + "/" + tarea.id())).body(tarea);
     }
 
-    public record NuevaTarea(@NotBlank String titulo) {}
+    @PutMapping("/{id}")
+    @Operation(summary = "Cambiar el título de una tarea")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Tarea actualizada"),
+            @ApiResponse(responseCode = "400", description = "Título vacío o ausente"),
+            @ApiResponse(responseCode = "404", description = "Tarea no encontrada")
+    })
+    ResponseEntity<Tarea> actualizar(@PathVariable long id, @Valid @RequestBody PeticionTarea peticion) {
+        return ResponseEntity.ofNullable(serviceJson.update(new Tarea(id, peticion.titulo())));
+    }
 
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Borrar una tarea")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Tarea borrada"),
+            @ApiResponse(responseCode = "404", description = "Tarea no encontrada")
+    })
+    ResponseEntity<Void> borrar(@PathVariable long id) {
+        return serviceJson.delete(id)
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
+    }
 }

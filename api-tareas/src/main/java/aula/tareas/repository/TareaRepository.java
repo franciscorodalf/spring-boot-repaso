@@ -7,8 +7,11 @@ import java.util.List;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicLong;
 
-@Repository()
-public class TareaRepository implements ITareaRepository{
+/**
+ * Repositorio en memoria: los datos se pierden al reiniciar la aplicación.
+ */
+@Repository("repositoryMemoria")
+public class TareaRepository implements ITareaRepository {
     private final AtomicLong secuencia = new AtomicLong();
     private final ConcurrentSkipListMap<Long, Tarea> tareas = new ConcurrentSkipListMap<>();
 
@@ -22,8 +25,7 @@ public class TareaRepository implements ITareaRepository{
 
     @Override
     public boolean delete(long identificador) {
-        tareas.remove(identificador);
-        return true;
+        return tareas.remove(identificador) != null;
     }
 
     @Override
@@ -38,9 +40,7 @@ public class TareaRepository implements ITareaRepository{
 
     @Override
     public Tarea update(Tarea tarea) {
-        // buscar la tarea por el id
-        // actualizar la tarea
-        return null;
+        // replace solo sustituye si ya existe una tarea con ese id
+        return tareas.replace(tarea.id(), tarea) != null ? tarea : null;
     }
-
 }
