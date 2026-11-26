@@ -2,14 +2,23 @@ package aula.tareas.controller;
 
 import aula.tareas.api.TareaRequest;
 import aula.tareas.api.TareaResponse;
+import aula.tareas.mapper.TareaMapperApi;
+import aula.tareas.modelo.Tarea;
 import aula.tareas.service.ITareaService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/orm/tareas")
 public class TareaControllerOrm {
     private final ITareaService servicio;
 
@@ -17,30 +26,35 @@ public class TareaControllerOrm {
         this.servicio = servicio;
     }
 
-    // TODO: Definir la ruta base /api/orm/tareas.
-
+    @GetMapping
     public List<TareaResponse> listar() {
-        // TODO: Exponer el listado y convertir las tareas en respuestas.
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return servicio.listar().stream().map(TareaMapperApi::toResponse).toList();
     }
 
+    @GetMapping("/{id}")
     public ResponseEntity<TareaResponse> buscar(long id) {
-        // TODO: Exponer la consulta por ID y gestionar la ausencia de la tarea.
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return ResponseEntity.of(servicio.buscar(id).map(TareaMapperApi::toResponse));
     }
 
+    @PostMapping()
     public ResponseEntity<TareaResponse> crear(TareaRequest request) {
-        // TODO: Exponer el alta, validar el cuerpo y componer la respuesta HTTP.
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        Tarea tareaCreada = servicio.crear(request);
+        URI uri = URI.create("/api/orm/tareas/" + tareaCreada.identificador());
+        return ResponseEntity.created(uri).body(TareaMapperApi.toResponse(tareaCreada));
     }
 
+    @PutMapping("/{id}")
     public ResponseEntity<TareaResponse> actualizar(long id, TareaRequest request) {
-        // TODO: Exponer la actualización y validar la petición.
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return ResponseEntity.of(servicio.actualizar(id, request).map(TareaMapperApi::toResponse));
+
     }
 
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(long id) {
-        // TODO: Exponer el borrado y comunicar el resultado.
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        boolean borrado = servicio.eliminar(id);
+        if (borrado) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

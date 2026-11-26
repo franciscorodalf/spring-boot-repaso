@@ -4,15 +4,23 @@ import aula.tareas.entity.TareaEntityOrm;
 import aula.tareas.modelo.Tarea;
 
 public final class TareaMapperOrm {
-    private TareaMapperOrm() {}
+    private TareaMapperOrm() {
+    }
 
     public static TareaEntityOrm toEntity(Tarea tarea) {
-        // TODO: Convertir al tipo de destino.
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        if (tarea == null) {
+            return null;
+        }
+        TareaEntityOrm tareaEntityorm = new TareaEntityOrm();
+        tareaEntityorm.setIdTarea(tarea.identificador());
+        tareaEntityorm.setNombreTarea(tarea.nombre());
+        return tareaEntityorm;
     }
 
     public static Tarea toDomain(TareaEntityOrm entity) {
-        // TODO: Convertir al tipo de destino.
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        if (entity == null) {
+            return null;
+        }
+        return new Tarea(entity.getIdTarea(), entity.getNombreTarea());
     }
 }

@@ -21,7 +21,6 @@ public final class TareaMapperJson {
         if (entity == null) {
             return null;
         }
-
         return new Tarea(entity.getIdTarea(), entity.getNombreTarea());
     }
 }

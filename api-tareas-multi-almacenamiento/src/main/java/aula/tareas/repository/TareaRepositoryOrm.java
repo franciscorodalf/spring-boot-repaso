@@ -1,9 +1,15 @@
 package aula.tareas.repository;
 
+import aula.tareas.entity.TareaEntityJson;
+import aula.tareas.entity.TareaEntityOrm;
+import aula.tareas.mapper.TareaMapperJson;
+import aula.tareas.mapper.TareaMapperOrm;
 import aula.tareas.modelo.Tarea;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,20 +24,24 @@ public class TareaRepositoryOrm implements ITareaRepository {
 
     @Override
     public List<Tarea> findAll() {
-        // TODO: Recuperar las tareas de este almacenamiento.
-        throw new UnsupportedOperationException("Pendiente de implementar");
+
+        List<TareaEntityOrm> resultado = jpa.findAll();
+        List<Tarea> tareas = new ArrayList<>();
+        for (TareaEntityOrm tarea : resultado) {
+            tareas.add(TareaMapperOrm.toDomain(tarea));
+        }
+        return tareas;
     }
 
     @Override
     public Optional<Tarea> findById(long id) {
-        // TODO: Buscar una tarea por identificador.
-        throw new UnsupportedOperationException("Pendiente de implementar");
+        return jpa.findById(id).map(TareaMapperOrm::toDomain);
     }
 
     @Override
     public Tarea create(Tarea tarea) {
-        // TODO: Guardar la tarea nueva y devolverla con su identificador.
-        throw new UnsupportedOperationException("Pendiente de implementar");
+      TareaEntityOrm tareaEntity = new TareaEntityOrm();
+      return tarea;
     }
 
     @Override

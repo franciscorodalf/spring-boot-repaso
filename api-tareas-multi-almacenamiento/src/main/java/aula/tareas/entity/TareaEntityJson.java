@@ -2,9 +2,6 @@ package aula.tareas.entity;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 
-import jakarta.persistence.Entity;
-
-
 public class TareaEntityJson {
     @JsonAlias("id")
     private Long idTarea;
