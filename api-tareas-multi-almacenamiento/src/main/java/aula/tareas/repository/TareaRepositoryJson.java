@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,13 @@ public class TareaRepositoryJson implements ITareaRepository {
     public TareaRepositoryJson(Path path, JsonMapper mapper) {
         this.path = path;
         this.mapper = mapper;
+        try {
+            if (Files.notExists(path)) {
+                Files.createFile(path);
+            }
+        } catch (IOException e) {
+            throw new UncheckedIOException("No se puede crear " + path, e);
+        }
     }
 
     @Override

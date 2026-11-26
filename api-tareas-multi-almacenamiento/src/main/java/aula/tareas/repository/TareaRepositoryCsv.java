@@ -33,6 +33,13 @@ public class TareaRepositoryCsv implements ITareaRepository {
 
     public TareaRepositoryCsv(Path path) {
         this.path = path;
+        try {
+            if (Files.notExists(path)) {
+                Files.createFile(path);
+            }
+        } catch (IOException e) {
+            throw new UncheckedIOException("No se puede crear " + path, e);
+        }
     }
 
     private static final CSVFormat ENTRADA = CSVFormat.DEFAULT.builder()

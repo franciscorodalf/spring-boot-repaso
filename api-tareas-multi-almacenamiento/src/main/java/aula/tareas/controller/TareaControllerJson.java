@@ -31,7 +31,6 @@ public class TareaControllerJson {
     @GetMapping("/{id}")
     public ResponseEntity<TareaResponse> buscar(@PathVariable long id) {
         return ResponseEntity.of(servicio.buscar(id).map(TareaMapperApi::toResponse));
-
     }
 
     @PostMapping()
